@@ -7,15 +7,10 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Install Dependencies') {
-            steps {
-                sh 'python -m pip install --upgrade pip'
-                sh 'if [ -f requirements.txt ]; then pip install -r requirements.txt; fi'
-            }
-        }
         stage('Run Tests') {
             steps {
-                sh 'python -m unittest test_app.py'
+                // If on Windows, Jenkins uses 'bat'. If on Linux/Mac, keep it as 'sh'
+                bat 'python -m unittest test_app.py' 
             }
         }
     }
